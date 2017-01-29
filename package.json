@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/ChadoNihi/fcc-voting-app/issues"
   },
-  "homepage": "https://github.com/ChadoNihi/fcc-voting-app#readme"
+  "homepage": "https://github.com/ChadoNihi/fcc-voting-app#readme",
+  "dependencies": {
+    "inferno": "^1.2.2",
+    "inferno-redux": "^1.2.2",
+    "inferno-router": "^1.2.2",
+    "inferno-server": "^1.2.2"
+  }
 }

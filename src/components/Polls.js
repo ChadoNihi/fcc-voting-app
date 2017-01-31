@@ -2,8 +2,10 @@ import Inferno from 'inferno';
 
 export default ({polls}) => {
   return (
-    <ul>
-
-    </ul>
+    <div>
+      {polls.map(poll=> {
+        return <span class="button stack">{poll.title}</span>;
+      })}
+    </div>
   );
 }

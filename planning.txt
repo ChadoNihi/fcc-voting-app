@@ -1,0 +1,1 @@
+each poll has: title, author, description*, options with corresponding # of votes

@@ -3,6 +3,8 @@ import configureStore from './store/configureStore';
 import { createBrowserHistory } from 'history';
 import {Provider} from 'inferno-redux';
 import {Router, Route, IndexRoute} from 'inferno-router';
+
+import routes from './routes';
 import App from './components/App';
 
 const browserHistory = createBrowserHistory();
@@ -13,9 +15,7 @@ const store = configureStore(preloadedState);
 
 Inferno.render(
     <Provider store={store}>
-        <Router history={browserHistory} component={ App }>
-                <IndexRoute component={Polls} />
-        </Router>
+        {routes}
     </Provider>,
     document.getElementById('app')
 );

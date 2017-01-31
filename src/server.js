@@ -47,6 +47,7 @@ function renderFullPage(html, preloadedState) {
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+            <link href="https://cdn.jsdelivr.net/picnicss/6.3.2/picnic.min.css" rel="stylesheet">
         </head>
         <body>
           <div id="app">${html}</div>

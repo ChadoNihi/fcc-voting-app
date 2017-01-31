@@ -21,5 +21,14 @@
     "inferno-redux": "^1.2.2",
     "inferno-router": "^1.2.2",
     "inferno-server": "^1.2.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-inferno": "^1.7.0",
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "babel-preset-latest": "^6.22.0",
+    "babel-preset-stage-2": "^6.22.0",
+    "webpack": "^2.2.1"
   }
 }

@@ -14,7 +14,7 @@ const store = configureStore(preloadedState);
 Inferno.render(
     <Provider store={store}>
         <Router history={browserHistory} component={ App }>
-                <IndexRoute component={DiscPage} />
+                <IndexRoute component={Polls} />
         </Router>
     </Provider>,
     document.getElementById('app')

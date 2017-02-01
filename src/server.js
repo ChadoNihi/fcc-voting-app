@@ -2,11 +2,20 @@ import Inferno from 'inferno';
 import { renderToString } from 'inferno-server';
 import {Provider} from 'inferno-redux';
 import { match, RouterContext } from 'inferno-router';
+import path from 'path';
 import routes from './routes';
 import configureStore from './store/configureStore';
+
+const MongoClient = require('mongodb').MongoClient;
+
+MongoClient.connect(process.env.MONGO_URI, (err, db) => {
+  
+})
+
 const port = process.env.PORT || 8080;
 const app = express();
 
+app.use(Express.static('public'));
 app.use(handleRender);
 function handleRender(req, res) {
   const renderProps = match(routes, req.originalUrl);

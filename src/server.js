@@ -9,14 +9,23 @@ import configureStore from './store/configureStore';
 const MongoClient = require('mongodb').MongoClient;
 
 MongoClient.connect(process.env.MONGO_URI, (err, db) => {
-  
-})
+  if (err) throw err;
 
-const port = process.env.PORT || 8080;
-const app = express();
+  const port = process.env.PORT || 8080;
+  const app = express();
 
-app.use(Express.static('public'));
-app.use(handleRender);
+  app.use(Express.static('public'));
+  app.use(handleRender);
+
+  app.listen(port, function(err) {
+    if (err) {
+      console.log(err);
+    } else {
+      open(`http://127.0.0.1:${port}`);
+    }
+  });
+});
+
 function handleRender(req, res) {
   const renderProps = match(routes, req.originalUrl);
   if (renderProps.redirect) {
@@ -70,11 +79,3 @@ function renderFullPage(html, preloadedState) {
       </html>
       `;
 }
-
-app.listen(port, function(err) {
-  if (err) {
-    console.log(err);
-  } else {
-    open(`http://127.0.0.1:${port}`);
-  }
-});

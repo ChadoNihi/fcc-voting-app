@@ -10,7 +10,8 @@ import NotFound from './components/NotFound';
 export default (
     <Route component={App}>
         <IndexRoute component={ Polls } />
-        <Route path=":poll" component={ PollPage }/>
+        <Route path="polls/:poll" component={ PollPage }/>
+        <Route path='polls' component={ Polls } />
         <Route path="users/:username" component={ UserPage }/>
         <Route path="*" component={ NotFound }/>
     </Route>

@@ -15,9 +15,9 @@ export default ({poll}) => {
             <option></option>
             {poll.opts.map(opt=> <option>{opt.title}</option>)}
           </select>
-          <input value="Submit vote" type="submit">
+          <input value="Submit vote" type="submit" />
         </form>
-        
+
       </section>
     </article>
   );

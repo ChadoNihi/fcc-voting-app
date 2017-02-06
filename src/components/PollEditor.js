@@ -1,6 +1,7 @@
 import Inferno, { linkEvent } from 'inferno';
+import { postPoll } from '../actions/actions';
+import { pollOptMaxLen, pollOptMinLen, pollTitleMaxLen, pollTitleMinLen} from '../constants';
 
-const pollTitleMinLength = 3;
 const txtAreaRe = /textarea/i;
 
 function onPollSubmit(poll, ev) {
@@ -8,14 +9,13 @@ function onPollSubmit(poll, ev) {
   //not Enter'ed
   if (txtAreaRe.test((ev.target || ev.srcElement).tagName) || (ev.keyCode || ev.which || ev.charCode || 0) !== 13) {
     let title = ev.target.elements['poll-title-inp'].value.trim(),
-        opts = ev.target.elements['poll-opts-inp'].value.split('\n').map(opt=> opt.trim());
+        opts = ev.target.elements['poll-opts-inp'].value.split('\n').map(opt=> opt.trim()).filter(opt=> opt.length > 0 && opt.length <= pollOptMaxLen);
 
-    if (opts.length>1 && opts.every(opt=>opt.length>0)) {
+    if (title.length>=pollTitleMinLen && title.length<=pollTitleMaxLen && opts.length>0) {
       postPoll({
         title,
         opts
       });
-      this.setState({isEditing: false});
     }
   }
 }
@@ -24,7 +24,7 @@ export default ({poll}) => {
   const isNewPoll = poll === undefined;
   return (
     <form onSubmit={ linkEvent(poll, onPollSubmit) }>
-      <label><input id='poll-title-inp' type="text" pattern={`.{${pollTitleMinLength},}`} placeholder={`Title (min ${pollTitleMinLength} chars)`} required disabled={!isNewPoll} value={isNewPoll ? "" : poll.title} /></label>
+      <label><input id='poll-title-inp' type="text" pattern={`.{${pollTitleMinLen},}`} placeholder={`Title (min ${pollTitleMinLen} chars)`} required disabled={!isNewPoll} value={isNewPoll ? "" : poll.title} /></label>
       <textarea id='poll-opts-inp' placeholder="Option per line" required></textarea>
       <input value={isNewPoll ? "Publish" : "Update"} type="submit" />
     </form>

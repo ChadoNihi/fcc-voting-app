@@ -1,10 +1,11 @@
 import Inferno from 'inferno';
 import { renderToString } from 'inferno-server';
-import {Provider} from 'inferno-redux';
+import { Provider } from 'inferno-redux';
 import { match, RouterContext } from 'inferno-router';
 import path from 'path';
 import routes from './routes';
 import configureStore from './store/configureStore';
+import { loggedIn } from './utils';
 
 const MongoClient = require('mongodb').MongoClient;
 
@@ -15,6 +16,11 @@ MongoClient.connect(process.env.MONGO_URI, (err, db) => {
   const app = express();
 
   app.use(Express.static('public'));
+
+  app.post('/poll', loggedIn, (req, res) => {
+    
+  });
+
   app.use(handleRender);
 
   app.listen(port, function(err) {

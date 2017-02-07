@@ -1,4 +1,7 @@
 import Inferno from 'inferno';
+//import { connect } from 'inferno-redux';
+
+import {addPollToPolls, addPollToUser} from '../actions/actions';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -15,3 +18,23 @@ const App = (props) => {
     </div>
   );
 }
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     addPollToPolls: (poll) => dispatch(addPollToPolls(poll)),
+//     addPollToUser: (poll) => dispatch(addPollToUser(poll))
+//   }
+// }
+//
+// const mapStateToProps = (state) => {
+//   return {
+//     polls: state.polls,
+//     user: state.user
+//   };
+// }
+//
+// const TheApp = connect(
+//     mapStateToProps
+// )(App);
+
+export default App;

@@ -1,4 +1,3 @@
-export const CHANGE_HERO_IN_FOCUS = 'CHANGE_HERO_IN_FOCUS';
-export const CHANGE_DRAG_LOCK = 'CHANGE_DRAG_LOCK';
-export const SET_HEROES = 'SET_HEROES';
-export const SET_SORTBY = 'SET_SORTBY';
+export const ADD_POLL_TO_POLLS = 'ADD_POLL_TO_POLLS';
+export const ADD_POLL_TO_USER = 'ADD_POLL_TO_USER';
+export const ADD_USER = 'ADD_USER';

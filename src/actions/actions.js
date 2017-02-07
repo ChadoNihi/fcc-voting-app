@@ -1,10 +1,8 @@
-import * as actions from './actionTypes.js';
+import * as a from './actionTypes.js';
 
-export const changeHero = (id)=>
-  ({type: actions.CHANGE_HERO_IN_FOCUS, id});
-export const changeDragLock = (bool)=>
-  ({type: actions.CHANGE_DRAG_LOCK, bool});
-export const setHeroes = (heroes)=>
-  ({type: actions.SET_HEROES, heroes});
-export const setSortBy = (sortBy)=>
-  ({type: actions.SET_SORTBY, sortBy});
+export const addPollToPolls = (poll)=>
+  ({type: a.ADD_POLL_TO_POLLS, poll});
+export const addPollToUser = (poll)=>
+  ({type: a.ADD_POLL_TO_USER, poll});
+export const addUser = (user)=>
+  ({type: a.ADD_USER, user});

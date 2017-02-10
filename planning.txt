@@ -1,1 +1,3 @@
 each poll has: title, author, authorUrlPart, lastModified, description*, options with corresponding # of votes
+
+redux-thunk remove?

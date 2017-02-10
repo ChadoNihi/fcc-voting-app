@@ -1,6 +1,6 @@
 import Inferno from 'inferno';
 
-export default (props) => {
+export default () => {
   return (
     <footer className='footer'>
       <div>

@@ -1,6 +1,6 @@
 import Inferno from 'inferno';
 
-export default ({polls}) => {
+const Polls = ({polls}) => {
   return (
     <div>
       {polls.map(poll=> {
@@ -9,3 +9,15 @@ export default ({polls}) => {
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    polls: state.polls
+  };
+}
+
+const ThePolls = connect(
+    mapStateToProps
+)(Polls);
+
+export default ThePolls;

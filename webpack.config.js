@@ -17,7 +17,6 @@ module.exports = [
         test: /\.jsx?$/,
         use: [{
           loader: 'babel-loader',
-          //options: { presets: ['es2015'] }
           exclude: [/node_modules/],
         }],
       },
@@ -34,6 +33,17 @@ module.exports = [
   output: {
     path: path.resolve(__dirname),
     filename: 'server.bundle.js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        use: [{
+          loader: 'babel-loader',
+          exclude: [/node_modules/],
+        }],
+      },
+    ],
   },
 },
 ];

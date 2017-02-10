@@ -1,7 +1,7 @@
 import Inferno, { linkEvent } from 'inferno';
 import { connect } from 'inferno-redux';
 
-import { pollOptMaxLen, pollOptMinLen, pollTitleMaxLen, pollTitleMinLen} from '../constants';
+import {pollOptMaxLen, pollOptMinLen, pollTitleMaxLen, pollTitleMinLen} from '../constants';
 
 import {addPollToPolls, addPollToUser} from '../actions/actions';
 
@@ -35,13 +35,15 @@ function onPollSubmit({poll, props}, ev) {
   }
 }
 
-const PollEditor = ({poll}) => {
+const PollEditor = ({poll, pollEditorModalId}) => {
   const isNewPoll = poll === undefined;
   return (
     <form onSubmit={ linkEvent({poll, props}, onPollSubmit) }>
       <label><input id='poll-title-inp' type="text" pattern={`.{${pollTitleMinLen},}`} placeholder={`Title (min ${pollTitleMinLen} chars)`} required disabled={!isNewPoll} value={isNewPoll ? "" : poll.title} /></label>
       <textarea id='poll-opts-inp' placeholder="Option per line" required></textarea>
       <input value={isNewPoll ? "Publish" : "Update"} type="submit" />
+      {pollEditorModalId ?
+        <label for={pollEditorModalId} className="button warning">Cancel</label> : undefined}
     </form>
   );
 }

@@ -34,7 +34,8 @@ const App = (props) => {
 // }
 //
 // const TheApp = connect(
-//     mapStateToProps
+//     mapStateToProps,
+//     mapDispatchToProps
 // )(App);
 
 export default App;

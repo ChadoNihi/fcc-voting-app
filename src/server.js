@@ -1,3 +1,4 @@
+import express from 'express';
 import Inferno from 'inferno';
 import { renderToString } from 'inferno-server';
 import { Provider } from 'inferno-redux';
@@ -9,16 +10,18 @@ import { loggedIn } from './utils';
 
 const MongoClient = require('mongodb').MongoClient;
 
+require('dotenv').config();
+
 MongoClient.connect(process.env.MONGO_URI, (err, db) => {
   if (err) throw err;
 
   const port = process.env.PORT || 8080;
   const app = express();
 
-  app.use(Express.static('public'));
+  app.use(express.static('public'));
 
   app.post('/poll', loggedIn, (req, res) => {
-    
+
   });
 
   app.use(handleRender);
@@ -27,7 +30,7 @@ MongoClient.connect(process.env.MONGO_URI, (err, db) => {
     if (err) {
       console.log(err);
     } else {
-      open(`http://127.0.0.1:${port}`);
+      console.log('Listening on port '+port);
     }
   });
 });
@@ -37,14 +40,14 @@ function handleRender(req, res) {
   if (renderProps.redirect) {
     res.redirect(renderProps.redirect);
   } else if (renderProps) {
+    let preloadedState = {};
 
-    fetchPolls().then(polls => {
+    const store = configureStore(preloadedState);
 
-      let preloadedState = {};
-
-      const store = configureStore(preloadedState);
-      store.dispatch(getDataSuccess(discs));
-
+    Promise.all([
+      promiseUserFromDb(req).then((user)=> store.dispatch(fetchUser())),
+      store.dispatch(fetchPolls())
+    ]).then(() => {
       // You can also check renderProps.components or renderProps.routes for
       // your "not found" component or route respectively, and send a 404 as
       // below, if you're using a catch-all route.

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --display-error-details",
     "prestart": "npm run build",
-    "start": "node bundle.server.js"
+    "start": "node server.bundle.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,9 @@
   },
   "homepage": "https://github.com/ChadoNihi/fcc-voting-app#readme",
   "dependencies": {
+    "dotenv": "^4.0.0",
+    "express": "^4.14.1",
+    "history": "^4.5.1",
     "immutability-helper": "^2.1.1",
     "inferno": "^1.2.2",
     "inferno-redux": "^1.2.2",

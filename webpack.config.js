@@ -17,8 +17,8 @@ module.exports = [
         test: /\.jsx?$/,
         use: [{
           loader: 'babel-loader',
-          exclude: [/node_modules/],
         }],
+        exclude: [/node_modules/],
       },
 
       // Loaders for other file types can go here
@@ -40,8 +40,8 @@ module.exports = [
         test: /\.jsx?$/,
         use: [{
           loader: 'babel-loader',
-          exclude: [/node_modules/],
         }],
+        exclude: [/node_modules/],
       },
     ],
   },

@@ -1,4 +1,5 @@
 import Inferno from 'inferno';
+import { connect } from 'inferno-redux';
 
 const Polls = ({polls}) => {
   return (

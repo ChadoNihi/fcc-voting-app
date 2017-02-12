@@ -6,22 +6,33 @@ import { match, RouterContext } from 'inferno-router';
 import path from 'path';
 import routes from './routes';
 import configureStore from './store/configureStore';
-import { loggedIn } from './utils';
+import {isDuplicatePoll, isValidPoll_Title_Opts, loggedIn } from './utils';
 
 const MongoClient = require('mongodb').MongoClient;
 
 require('dotenv').config();
 
-MongoClient.connect(process.env.MONGO_URI, (err, db) => {
+let db;
+
+MongoClient.connect(process.env.MONGO_URI, (err, _db) => {
   if (err) throw err;
+
+  db = _db;
 
   const port = process.env.PORT || 8080;
   const app = express();
+  const bodyParser = require('body-parser');
 
+  app.use(bodyParser.json());
   app.use(express.static('public'));
 
   app.post('/poll', loggedIn, (req, res) => {
-
+    let poll = req.poll;
+    if (isValidPoll_Title_Opts(poll) && isDuplicatePoll(poll)) {
+      db.collection('polls').insert({
+        
+      });
+    }
   });
 
   app.use(handleRender);
@@ -45,9 +56,13 @@ function handleRender(req, res) {
     const store = configureStore(preloadedState);
 
     Promise.all([
-      promiseUserFromDb(req).then((user)=> store.dispatch(fetchUser())),
-      store.dispatch(fetchPolls())
-    ]).then(() => {
+      promiseUserFromDb(req).then(
+        (user)=> {store.dispatch(addUser(user))},
+        ()=> {store.dispatch(addUser(false))}),
+      promisePollsFromDb().then(
+        (polls)=> {store.dispatch(setPolls(polls)); return polls;})
+    ]).then(([_ignore, polls]) => {
+      if (store.user) store.dispatch(setUserPolls(polls);
       // You can also check renderProps.components or renderProps.routes for
       // your "not found" component or route respectively, and send a 404 as
       // below, if you're using a catch-all route.
@@ -62,6 +77,10 @@ function handleRender(req, res) {
   } else {
     res.status(404).send('Not found');
   }
+}
+
+function promisePollsFromDb() {
+
 }
 
 function renderFullPage(html, preloadedState) {

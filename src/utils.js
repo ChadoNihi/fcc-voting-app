@@ -1,5 +1,7 @@
 'use strict';
 
+import {pollOptMaxLen, pollOptMinLen, pollTitleMaxLen, pollTitleMinLen} from './constants';
+
 module.exports = {
   loggedIn(req, res, next) {
     if (req.user) {
@@ -9,9 +11,15 @@ module.exports = {
       res.redirect('/');
     }
   },
-  isValidPoll(poll) {
+  isDuplicatePoll(poll) { // TODO for production ;)
+    return false;
+  },
+  isValidPoll_Title_Opts(poll) {
     try {
-      return poll.title.trim().length>2 && poll.opts.length>0 && poll.opts.every(opt=> opt.trim());
+      return poll.title.length>=pollTitleMinLen &&
+        poll.title.length<=pollTitleMaxLen &&
+        poll.opts.length>0 &&
+        poll.opts.every(opt=> opt.length > pollOptMinLen && opt.length <= pollOptMaxLen);
     } catch (e) {
       return false;
     }

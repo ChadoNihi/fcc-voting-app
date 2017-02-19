@@ -12,6 +12,9 @@ const MongoClient = require('mongodb').MongoClient;
 
 require('dotenv').config();
 
+const pollsCollName = process.env.POLLS_COLLECTION_NAME,
+      usersCollName = process.env.USERS_COLLECTION_NAME;
+
 let db;
 
 MongoClient.connect(process.env.MONGO_URI, (err, _db) => {
@@ -29,8 +32,8 @@ MongoClient.connect(process.env.MONGO_URI, (err, _db) => {
   app.post('/poll', loggedIn, (req, res) => {
     let poll = req.poll;
     if (isValidPoll_Title_Opts(poll) && isDuplicatePoll(poll)) {
-      db.collection('polls').insert({
-        
+      db.collection(pollsCollName).insert({
+
       });
     }
   });
@@ -56,11 +59,14 @@ function handleRender(req, res) {
     const store = configureStore(preloadedState);
 
     Promise.all([
-      promiseUserFromDb(req).then(
+      promiseUserFromDb(db, req).then(
         (user)=> {store.dispatch(addUser(user))},
-        ()=> {store.dispatch(addUser(false))}),
-      promisePollsFromDb().then(
-        (polls)=> {store.dispatch(setPolls(polls)); return polls;})
+        (err)=> {console.log('An error on querying a user: '+err);}
+      ),
+      promisePollsFromDb(db).then(
+        (polls)=> {store.dispatch(setPolls(polls)); return polls;},
+        (err)=> {console.log('An error on querying polls: '+err);}
+      )
     ]).then(([_ignore, polls]) => {
       if (store.user) store.dispatch(setUserPolls(polls);
       // You can also check renderProps.components or renderProps.routes for
@@ -79,8 +85,56 @@ function handleRender(req, res) {
   }
 }
 
-function promisePollsFromDb() {
+function getPollsFromDb(db, cb) {
+  db.collection(pollsCollName).find().toArray((err, polls)=> {
+    if (err) {
+      cb(err);
+    } else {
+      cb(null, polls);
+    }
+  });
+}
 
+function getUserFromDb(db, provider, idByProvider, cb) {
+  db.collection(usersCollName).findOne({provider: provider, idByProvider: idByProvider}, (err, user)=> {
+		if (err) {
+			cb(err);
+		} else {
+			// db.collection('polls').find({_id: {$in: user.pollsIds}}).toArray((err, polls)=> {
+			// 	user.polls = polls;
+			// 	res.json(user);
+			// });
+      cb(null, user);
+		}
+	});
+}
+
+function promisePollsFromDb(db) {
+  return new Promise(function(resolve, reject) {
+    getPollsFromDb(db, (err, polls)=> {
+			if (err) {
+        reject(err);
+			} else {
+				resolve(polls);
+			}
+		});
+  });
+}
+
+function promiseUserFromDb(db, req) {
+  return new Promise(function(resolve, reject) {
+    if (req.user) {
+      getUserFromDb(db, req.user.provider, req.user.id, (err, user)=> {
+  			if (err) {
+          reject(err);
+  			} else {
+  				resolve(user);
+  			}
+  		});
+    } else {
+      resolve(false);
+    }
+  });
 }
 
 function renderFullPage(html, preloadedState) {

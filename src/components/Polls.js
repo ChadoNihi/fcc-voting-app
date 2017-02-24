@@ -5,7 +5,7 @@ const Polls = ({polls}) => {
   return (
     <div>
       {polls.map(poll=> {
-        return <span class="button stack">{poll.title}</span>;
+        return <span className="button stack">{poll.title}</span>;
       })}
     </div>
   );

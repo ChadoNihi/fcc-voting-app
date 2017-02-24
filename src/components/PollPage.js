@@ -4,10 +4,10 @@ import PollDiagram from './PollDiagram';
 
 export default ({poll}) => {
   return (
-    <article class="card">
+    <article className="card">
       <header>
         <h2>{poll.title}</h2>
-        <h6>by <Link to={`/users/${poll.authorUrlPart}`}>{poll.author}</Link>{poll.lastModified ? <span class="label warning">Edited on </span> : ''}</h6>
+        <h6>by <Link to={`/users/${poll.authorUrlPart}`}>{poll.author}</Link>{poll.lastModified ? <span className="label warning">Edited on </span> : ''}</h6>
       </header>
 
       <section>

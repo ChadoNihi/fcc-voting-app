@@ -31,7 +31,7 @@ MongoClient.connect(process.env.MONGO_URI, (err, _db) => {
 
   app.post('/poll', loggedIn, (req, res) => {
     let poll = req.poll;
-    if (isValidPoll_Title_Opts(poll) && isDuplicatePoll(poll)) {
+    if (isValidPoll_Title_Opts(poll) && !isDuplicatePoll(poll)) {
       db.collection(pollsCollName).insert({
 
       });

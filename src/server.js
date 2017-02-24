@@ -8,7 +8,9 @@ import routes from './routes';
 import configureStore from './store/configureStore';
 import {isDuplicatePoll, isValidPoll_Title_Opts, loggedIn } from './utils';
 
-const MongoClient = require('mongodb').MongoClient;
+const MongoClient = require('mongodb').MongoClient,
+      session = require('express-session'),
+      passport = require('passport');
 
 require('dotenv').config();
 
@@ -26,8 +28,37 @@ MongoClient.connect(process.env.MONGO_URI, (err, _db) => {
   const app = express();
   const bodyParser = require('body-parser');
 
+  app.use(session({
+  	secret: process.env.SESSION_SECRET,
+  	resave: false,
+  	saveUninitialized: true,
+    cookie : { httpOnly: true, maxAge: 2419200000 }
+    //cookie: { secure: false } //true requires https
+  }));
+
   app.use(bodyParser.json());
   app.use(express.static('public'));
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  app.route('/auth/github')
+  	.get(ensureUnauthenticated, passport.authenticate('github'));
+  app.route('/auth/github/callback')
+  	.get(passport.authenticate('github', {
+  		successRedirect: '/',
+  		failureRedirect: '/',
+  		failureFlash: true
+  	}));
+
+  app.route('/auth/twitter')
+  	.get(ensureUnauthenticated, passport.authenticate('twitter'));
+  app.route('/auth/twitter/callback')
+  	.get(passport.authenticate('twitter', {
+  		successRedirect: '/',
+  		failureRedirect: '/404',
+  		failureFlash: true
+  	}));
 
   app.post('/poll', loggedIn, (req, res) => {
     let poll = req.poll;

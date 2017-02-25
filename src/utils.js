@@ -4,7 +4,7 @@ import {pollOptMaxLen, pollOptMinLen, pollTitleMaxLen, pollTitleMinLen} from './
 
 module.exports = {
   loggedIn(req, res, next) {
-    if (req.user) {
+    if (req.isAuthenticated()) {
       next();
     } else {
       req.flash('error', 'Please, log in first.');

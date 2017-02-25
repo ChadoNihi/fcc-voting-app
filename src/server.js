@@ -25,7 +25,9 @@ MongoClient.connect(process.env.MONGO_URI, (err, _db) => {
   db = _db;
 
   const port = process.env.PORT || 8080;
-  const app = express();
+  const app = express({
+    secret: process.env.SESSION_SECRET
+  });
   const bodyParser = require('body-parser');
 
   app.use(session({
@@ -42,23 +44,27 @@ MongoClient.connect(process.env.MONGO_URI, (err, _db) => {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  app.route('/auth/github')
-  	.get(ensureUnauthenticated, passport.authenticate('github'));
-  app.route('/auth/github/callback')
-  	.get(passport.authenticate('github', {
+  app.get('/auth/github', ensureUnauthenticated, passport.authenticate('github'));
+  app.get('/auth/github/cb', passport.authenticate('github', {
   		successRedirect: '/',
   		failureRedirect: '/',
   		failureFlash: true
-  	}));
+  }));
 
-  app.route('/auth/twitter')
-  	.get(ensureUnauthenticated, passport.authenticate('twitter'));
-  app.route('/auth/twitter/callback')
-  	.get(passport.authenticate('twitter', {
+  app.get('/auth/twitter', ensureUnauthenticated, passport.authenticate('twitter'));
+  app.get('/auth/twitter/cb', passport.authenticate('twitter', {
   		successRedirect: '/',
-  		failureRedirect: '/404',
+  		failureRedirect: '/',
   		failureFlash: true
-  	}));
+  }));
+
+  app.get('/logout', function (req, res){
+    req.logout();
+    res.redirect('/');
+    // req.session.destroy(function (err) {
+    //   res.redirect('/');
+    // });
+  });
 
   app.post('/poll', loggedIn, (req, res) => {
     let poll = req.poll;

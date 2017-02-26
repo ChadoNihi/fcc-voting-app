@@ -3,20 +3,22 @@ const GithubStrategy = require('passport-github').Strategy,
       githubAuth = {
     		'clientID': process.env.GITHUB_KEY,
     		'clientSecret': process.env.GITHUB_SECRET,
-    		'callbackURL': process.env.APP_URL + 'auth/github/cb'
+    		'callbackURL': path.join(process.env.APP_URL, 'auth/github/cb')
 	    },
 	    twitterAuth = {
     		'consumerKey': process.env.TWITTER_CONSUMER_KEY,
     	  'consumerSecret': process.env.TWITTER_CONSUMER_SECRET,
-    	  'callbackURL': process.env.APP_URL + "auth/twitter/cb"
+    	  'callbackURL': path.join(process.env.APP_URL, "auth/twitter/cb")
       };
+module.exports = function (passport) {
 
-passport.use(new GithubStrategy({
-    clientID: githubAuth. ,
-    clientSecret: githubAuth. ,
-    callbackURL: githubAuth.
-  },
-  function(accessToken, refreshToken, profile, done) {
-    return done(null, profile);
-  }
-));
+  passport.use(new GithubStrategy({
+      clientID: githubAuth.clientID ,
+      clientSecret: githubAuth.clientSecret ,
+      callbackURL: githubAuth.callbackURL
+    },
+    function(accessToken, refreshToken, profile, done) {
+      return done(null, profile);
+    }
+  ));
+}

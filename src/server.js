@@ -7,6 +7,7 @@ import path from 'path';
 import routes from './routes';
 import configureStore from './store/configureStore';
 import {isDuplicatePoll, isValidPoll_Title_Opts, loggedIn } from './utils';
+import initPassport from './config/passport';
 
 const MongoClient = require('mongodb').MongoClient,
       session = require('express-session'),
@@ -41,6 +42,7 @@ MongoClient.connect(process.env.MONGO_URI, (err, _db) => {
   app.use(bodyParser.json());
   app.use(express.static('public'));
 
+  require('./config/passport')(passport);
   app.use(passport.initialize());
   app.use(passport.session());
 

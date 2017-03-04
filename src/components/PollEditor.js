@@ -14,7 +14,7 @@ function onPollSubmit({poll, props}, ev) {
   if (txtAreaRe.test((ev.target || ev.srcElement).tagName) || (ev.keyCode || ev.which || ev.charCode || 0) !== 13) {
     const poll = {
       'title': ev.target.elements['poll-title-inp'].value.trim(),
-      'opts': = ev.target.elements['poll-opts-inp'].value.split('\n').map(opt=> opt.trim()).filter(opt=> opt.length > pollOptMinLen && opt.length <= pollOptMaxLen)
+      'opts': ev.target.elements['poll-opts-inp'].value.split('\n').map(opt=> opt.trim()).filter(opt=> opt.length > pollOptMinLen && opt.length <= pollOptMaxLen)
     };
 
     if (isValidPoll_Title_Opts(poll) && !isDuplicatePoll(poll)) {

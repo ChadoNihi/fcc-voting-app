@@ -107,7 +107,7 @@ function handleRender(req, res) {
         (err)=> {console.log('An error on querying polls: '+err);}
       )
     ]).then(([_ignore, polls]) => {
-      if (store.user) store.dispatch(setUserPolls(polls);
+      if (store.user) store.dispatch(setUserPolls(polls));
       // You can also check renderProps.components or renderProps.routes for
       // your "not found" component or route respectively, and send a 404 as
       // below, if you're using a catch-all route.

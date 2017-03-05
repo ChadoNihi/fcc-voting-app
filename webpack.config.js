@@ -24,6 +24,12 @@ module.exports = [
       // Loaders for other file types can go here
     ],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    }),
+    new webpack.IgnorePlugin(/vertx/)
+  ]
 },
 
 {
@@ -33,6 +39,7 @@ module.exports = [
   output: {
     path: path.resolve(__dirname),
     filename: 'server.bundle.js',
+    //libraryTarget: 'commonjs2'
   },
   module: {
     rules: [

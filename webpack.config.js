@@ -27,8 +27,7 @@ module.exports = [
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-    }),
-    new webpack.IgnorePlugin(/vertx/)
+    })
   ]
 },
 
@@ -52,5 +51,8 @@ module.exports = [
       },
     ],
   },
+  plugins: [
+    new webpack.IgnorePlugin(/vertx/)
+  ]
 },
 ];

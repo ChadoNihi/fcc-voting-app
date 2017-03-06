@@ -1,4 +1,5 @@
-const GithubStrategy = require('passport-github').Strategy,
+const path = require('path'),
+      GithubStrategy = require('passport-github').Strategy,
       TwitterStrategy = require('passport-twitter').Strategy,
       githubAuth = {
     		'clientID': process.env.GITHUB_KEY,

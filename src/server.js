@@ -9,11 +9,11 @@ import configureStore from './store/configureStore';
 import {isDuplicatePoll, isValidPoll_Title_Opts, loggedIn } from './utils';
 import initPassport from './config/passport';
 
+require('dotenv').config();
+
 const MongoClient = require('mongodb').MongoClient,
       session = require('express-session'),
       passport = require('passport');
-
-require('dotenv').config();
 
 const pollsCollName = process.env.POLLS_COLLECTION_NAME,
       usersCollName = process.env.USERS_COLLECTION_NAME;

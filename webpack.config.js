@@ -2,13 +2,14 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = [
 {
-  context: path.resolve(__dirname),
-  entry:  './src/client.js',
+  //context: path.resolve(__dirname),
+  entry:  path.join(__dirname, 'src/client.js'),
   output: {
-    path: path.resolve(__dirname, './public/js'),
+    path: path.join(__dirname, 'public/js'),
     filename: 'client.bundle.js',
   },
   module: {
@@ -19,9 +20,7 @@ module.exports = [
           loader: 'babel-loader',
         }],
         exclude: [/node_modules/],
-      },
-
-      // Loaders for other file types can go here
+      }
     ],
   },
   plugins: [
@@ -33,10 +32,10 @@ module.exports = [
 
 {
   target: 'node',
-  context: path.resolve(__dirname),
-  entry:  './src/server.js',
+  //context: path.resolve(__dirname),
+  entry:  path.join(__dirname, 'src/server.js'),
   output: {
-    path: path.resolve(__dirname),
+    path: path.join(__dirname),
     filename: 'server.bundle.js',
     //libraryTarget: 'commonjs2'
   },
@@ -53,6 +52,7 @@ module.exports = [
   },
   plugins: [
     new webpack.IgnorePlugin(/vertx/)
-  ]
+  ],
+  externals: [nodeExternals()]
 },
 ];

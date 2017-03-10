@@ -35,7 +35,7 @@ module.exports = [
   //context: path.resolve(__dirname),
   entry:  path.join(__dirname, 'src/server.js'),
   output: {
-    path: path.join(__dirname),
+    path: __dirname,
     filename: 'server.bundle.js',
     //libraryTarget: 'commonjs2'
   },
@@ -45,6 +45,12 @@ module.exports = [
         test: /\.jsx?$/,
         use: [{
           loader: 'babel-loader',
+          options: {
+            presets: [
+              ["latest", { "modules": false }],
+              "stage-0"
+            ]
+          }
         }],
         exclude: [/node_modules/],
       },
@@ -53,6 +59,6 @@ module.exports = [
   plugins: [
     new webpack.IgnorePlugin(/vertx/)
   ],
-  externals: [nodeExternals()]
+  //externals: [nodeExternals()]
 },
 ];

@@ -1,4 +1,4 @@
 {
-    "presets": [ "latest", "stage-2" ],
-    "plugins": ["inferno"]
+    "presets": [ "latest", "stage-0" ],
+    "plugins": ["babel-plugin-syntax-jsx", ["babel-plugin-inferno", {"imports": true}]]
 }
